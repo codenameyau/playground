@@ -21,6 +21,7 @@ function Playground() {
   this._initializeSettings();
   this._initializeClock();
   this._initializeScene();
+  this._initializeRenderer();
   this._initializeCamera();
   this._initializeControls();
   this._initializeHUD();
@@ -37,13 +38,19 @@ Playground.prototype._initializeSettings = function() {
     antialias: false,
   };
 
+  this.settings.scene = {
+    grid: false,
+  };
+
   this.settings.camera = {
     fov: 45,
     near: 1,
     far: 1000,
-    zoomX: 0,
-    zoomY: 20,
-    zoomZ: 50,
+    zoom: {
+      x: 0,
+      y: 20,
+      z: 50,
+    }
   };
 
   this.settings.controls = {
@@ -63,6 +70,9 @@ Playground.prototype._initializeClock = function() {
 
 Playground.prototype._initializeScene = function() {
   this.scene = new THREE.Scene();
+};
+
+Playground.prototype._initializeRenderer = function() {
   this.renderer = new THREE.WebGLRenderer(this.settings.renderer);
   this.renderer.setSize(window.innerWidth, window.innerHeight);
   this.utils.addToDOM(this.settings.meta.dom, this.renderer.domElement);
@@ -70,18 +80,18 @@ Playground.prototype._initializeScene = function() {
 };
 
 Playground.prototype._initializeCamera = function() {
-  var set = this.settings.camera;
+  var c = this.settings.camera;
   var aspect = window.innerWidth/window.innerHeight;
-  this.camera = new THREE.PerspectiveCamera(set.fov, aspect, set.near, set.far);
-  this.camera.position.set(set.zoomX, set.zoomY, set.zoomZ);
+  this.camera = new THREE.PerspectiveCamera(c.fov, aspect, c.near, c.far);
+  this.camera.position.set(c.zoom.x, c.zoom.y, c.zoom.z);
   this.camera.lookAt(this.scene.position);
   this.scene.add(this.camera);
 };
 
 Playground.prototype._initializeControls = function() {
-  var set = this.settings.controls;
+  var controls = this.settings.controls;
   this.controls = new THREE.OrbitControls(this.camera);
-  for (var key in set) { this.controls[key] = set[key]; }
+  for (var key in controls) { this.controls[key] = controls[key]; }
 };
 
 Playground.prototype._initializeHUD = function() {
@@ -95,6 +105,9 @@ Playground.prototype._initializeEventListeners = function() {
   window.addEventListener('keydown', this.keyboardInput.bind(this), false);
 };
 
+Playground.prototype._callback = function(callback) {
+  if (callback) { callback.bind(this)(); }
+};
 
 /********************************************************************
 * CORE METHODS
@@ -141,8 +154,7 @@ Playground.prototype.togglePause = function() {
     this.HUD.paused.style.display = 'block';
     this.controls.enabled = false;
     this.pauseRenderer();
-  }
-  else {
+  } else {
     this.HUD.paused.style.display = 'none';
     this.controls.enabled = true;
     this.resumeRenderer();
@@ -162,10 +174,6 @@ Playground.prototype.changeSettings = function(type, dictionary) {
   }
 };
 
-Playground.prototype.loadScene = function(callback) {
-  callback.bind(this)();
-};
-
 Playground.prototype.enableGrid = function(lines, steps, gridColor) {
   lines = lines || 20;
   steps = steps || 2;
@@ -179,6 +187,24 @@ Playground.prototype.enableGrid = function(lines, steps, gridColor) {
     floorGrid.vertices.push(new THREE.Vector3( i, 0, lines));
   }
   this.scene.add(new THREE.Line(floorGrid, gridLine, THREE.LinePieces));
+  this.settings.scene.grid = true;
+};
+
+Playground.prototype.loadScene = function(callback) {
+  this._callback(callback);
+};
+
+Playground.prototype.resetCamera = function(callback) {
+  this._initializeCamera();
+  this._initializeControls();
+  this._callback(callback);
+};
+
+Playground.prototype.resetScene = function(callback) {
+  this._initializeScene();
+  this.resetCamera();
+  if (this.settings.scene.grid) { this.enableGrid(); }
+  this._callback(callback);
 };
 
 
@@ -241,6 +267,12 @@ Playground.prototype.keyboardInput = function(event) {
   case 32:
     event.preventDefault();
     this.togglePause();
+    break;
+
+  // r: reset camera
+  case 82:
+    event.preventDefault();
+    this.resetCamera();
     break;
   }
 };
