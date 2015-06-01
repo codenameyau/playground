@@ -1,7 +1,7 @@
 /*!
  * playground.js
  * MIT License (c) 2015
- * codenameyau.github.io
+ * https://github.com/codenameyau/playground
  */
 'use strict';
 
@@ -9,16 +9,16 @@
 * FUNCTION CONSTRUCTOR
 *********************************************************************/
 function Playground() {
-  // Initialize properties.
-  this.settings = {};
-  this.HUD = {};
+  // Properties Overview.
   this.clock = null;
-  this.renderer = null;
   this.scene = null;
+  this.renderer = null;
   this.camera = null;
+  this.controls = null;
 
-  // Intialize core functionality.
+  // Initialize object properties.
   this._initializeSettings();
+  this._intializeKeycodes();
   this._initializeClock();
   this._initializeScene();
   this._initializeRenderer();
@@ -30,36 +30,37 @@ function Playground() {
 }
 
 Playground.prototype._initializeSettings = function() {
-  this.settings.meta = {
-    dom: 'threejs-canvas',
-  };
+  this.settings = {
+    meta: {
+      dom: 'threejs-canvas',
+    },
 
-  this.settings.renderer = {
-    antialias: false,
-  };
+    renderer: {
+      antialias: false,
+    },
 
-  this.settings.scene = {
-    grid: false,
-  };
+    scene: {
+      grid: false,
+    },
 
-  this.settings.camera = {
-    fov: 45,
-    near: 1,
-    far: 1000,
-    zoom: {
-      x: 0,
-      y: 20,
-      z: 50,
-    }
-  };
+    camera: {
+      fov: 45, near: 1, far: 1000,
+      zoom: { x: 0, y: 20, z: 50 },
+    },
 
-  this.settings.controls = {
-    enabled: true,
-    userPan: false,
-    userPanSpeed: 0.5,
-    minDistance: 10.0,
-    maxDistance: 200.0,
-    maxPolarAngle: (Math.PI/180) * 85,
+    controls: {
+      enabled: true,
+      userPan: false,
+      userPanSpeed: 0.5,
+      minDistance: 10.0,
+      maxDistance: 200.0,
+      maxPolarAngle: (Math.PI/180) * 85,
+    },
+  };
+};
+
+Playground.prototype._intializeKeycodes = function() {
+  this.keycodes = {
   };
 };
 
@@ -95,6 +96,7 @@ Playground.prototype._initializeControls = function() {
 };
 
 Playground.prototype._initializeHUD = function() {
+  this.HUD = {};
   this.enablePausedHUD();
 };
 
