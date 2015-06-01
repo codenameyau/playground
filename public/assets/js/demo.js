@@ -22,5 +22,4 @@
     playground.scene.add(boxMesh);
   });
 
-
 })();

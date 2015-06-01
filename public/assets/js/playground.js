@@ -106,7 +106,9 @@ Playground.prototype._initializeEventListeners = function() {
 };
 
 Playground.prototype._callback = function(callback) {
-  if (callback) { callback.bind(this)(); }
+  if (callback && typeof(callback) === 'function') {
+    callback.bind(this)();
+  }
 };
 
 /********************************************************************
@@ -225,11 +227,11 @@ Playground.prototype.utils.checkProperty = function(obj, property, value) {
 };
 
 Playground.prototype.utils.degToRad = function(degrees) {
-  return Math.PI/180 * degrees;
+  return (Math.PI / 180) * degrees;
 };
 
 Playground.prototype.utils.radToDeg = function(radians) {
-  return 180/Math.PI * radians;
+  return (180 / Math.PI) * radians;
 };
 
 
