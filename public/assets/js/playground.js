@@ -181,14 +181,6 @@ Playground.prototype.enableGrid = function(lines, steps, gridColor) {
   this.scene.add(new THREE.Line(floorGrid, gridLine, THREE.LinePieces));
 };
 
-Playground.prototype.enablePausedHUD = function() {
-  var container = document.createElement('div');
-  container.className = 'hud-paused';
-  container.textContent = 'Paused';
-  this.utils.addToDOM(this.settings.meta.dom, container);
-  this.HUD.paused = container;
-};
-
 
 /********************************************************************
 * UTILITIES
@@ -212,6 +204,30 @@ Playground.prototype.utils.degToRad = function(degrees) {
 
 Playground.prototype.utils.radToDeg = function(radians) {
   return 180/Math.PI * radians;
+};
+
+
+/********************************************************************
+* HUD METHODS
+*********************************************************************/
+Playground.prototype.enablePausedHUD = function() {
+  var container = document.createElement('div');
+  container.textContent = 'Paused';
+  container.style.display = 'none';
+  container.style.zIndex = '100';
+  container.style.width = '100%';
+  container.style.height = '100%';
+  container.style.textAlign = 'center';
+  container.style.color = '#ffffff';
+  container.style.textTransform = 'uppercase';
+  container.style.fontSize = '32px';
+  container.style.letterSpacing = '6px';
+  container.style.position = 'absolute';
+  container.style.top = '0';
+  container.style.padding = '20% 0 0 0';
+  container.style.background = 'rgba(0, 0, 0, 0.5)';
+  this.utils.addToDOM(this.settings.meta.dom, container);
+  this.HUD.paused = container;
 };
 
 
