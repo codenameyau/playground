@@ -30,7 +30,9 @@ gulp.task('src', function() {
 gulp.task('uglify', function() {
   return gulp.src(playgroundFile)
     .pipe(strReplace(/'use strict';/g, ''))
-    .pipe(uglify())
+    .pipe(uglify({
+      preserveComments: 'some'
+    }))
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest('src'));
 });
