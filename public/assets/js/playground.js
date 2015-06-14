@@ -1,5 +1,5 @@
 /*!
- * playground.js
+ * playground.js - v1.0.0
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -10,6 +10,7 @@
 *********************************************************************/
 function Playground() {
   // Properties Overview.
+  this.version = 'v1.0.0';
   this.clock = null;
   this.scene = null;
   this.renderer = null;
