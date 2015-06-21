@@ -6,36 +6,41 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-var rimraf = require('rimraf');
+var concat = require('gulp-concat');
 var strReplace = require('gulp-replace');
+var rimraf = require('rimraf');
 
 
 /********************************************************************
 * GULP TASKS
 *********************************************************************/
-var playgroundFile = 'public/assets/js/playground.js';
+var lib = 'public/assets/js/lib/*.js';
+var output = 'build';
+var packageName = 'playground.js';
 
 // [Task] removes 'src/'
 gulp.task('clean', function(cb) {
-  rimraf('src/', cb);
+  rimraf(output, cb);
 });
 
 // [Task] copy public files to src
-gulp.task('src', function() {
-  gulp.src(playgroundFile)
-    .pipe(gulp.dest('src'));
+gulp.task('build', function() {
+  gulp.src(lib)
+    .pipe(concat(packageName))
+    .pipe(gulp.dest(output));
 });
 
 // [Task] uglify js
 gulp.task('uglify', function() {
-  return gulp.src(playgroundFile)
+  return gulp.src(lib)
     .pipe(strReplace(/'use strict';/g, ''))
+    .pipe(concat(packageName))
     .pipe(uglify({
       preserveComments: 'some'
     }))
     .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest('src'));
+    .pipe(gulp.dest(output));
 });
 
 // [Task] generates src
-gulp.task('default', ['src', 'uglify']);
+gulp.task('default', ['build', 'uglify']);
