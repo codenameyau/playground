@@ -8,7 +8,7 @@
 /********************************************************************
 * FUNCTION CONSTRUCTOR
 *********************************************************************/
-function Playground() {
+function Playground(settings) {
   // Properties Overview.
   this.version = 'v1.0.0';
   this.clock = null;
@@ -18,7 +18,7 @@ function Playground() {
   this.controls = null;
 
   // Initialize object properties.
-  this._initializeSettings();
+  this._initializeSettings(settings);
   this._intializeKeycodes();
   this._initializeClock();
   this._initializeScene();
@@ -33,7 +33,7 @@ function Playground() {
 Playground.prototype._initializeSettings = function() {
   this.settings = {
     meta: {
-      dom: 'threejs-canvas',
+      dom: '#threejs-canvas',
     },
 
     renderer: {
@@ -54,7 +54,7 @@ Playground.prototype._initializeSettings = function() {
       userPan: false,
       userPanSpeed: 0.5,
       minDistance: 10.0,
-      maxDistance: 200.0,
+      maxDistance: 600.0,
       maxPolarAngle: (Math.PI/180) * 85,
     },
   };
@@ -274,9 +274,11 @@ Playground.prototype.resetScene = function(callback) {
 *********************************************************************/
 Playground.prototype.utils = {};
 
-Playground.prototype.utils.addToDOM = function(parent, element) {
-  var container = document.getElementById(parent);
-  container.appendChild(element);
+Playground.prototype.utils.addToDOM = function(selector, element) {
+  var container = document.querySelector(selector);
+  if (container) {
+    container.appendChild(element);
+  }
 };
 
 Playground.prototype.utils.checkProperty = function(obj, property, value) {
@@ -299,20 +301,27 @@ Playground.prototype.utils.radToDeg = function(radians) {
 *********************************************************************/
 Playground.prototype.enablePausedHUD = function() {
   var container = document.createElement('div');
+  container.className = 'pause-hud';
   container.textContent = 'Paused';
-  container.style.display = 'none';
-  container.style.zIndex = '100';
-  container.style.width = '100%';
-  container.style.height = '100%';
-  container.style.textAlign = 'center';
-  container.style.color = '#ffffff';
-  container.style.textTransform = 'uppercase';
-  container.style.fontSize = '32px';
-  container.style.letterSpacing = '6px';
-  container.style.position = 'absolute';
-  container.style.top = '0';
-  container.style.padding = '20% 0 0 0';
-  container.style.background = 'rgba(0, 0, 0, 0.5)';
+
+  var stylesheet = new StyleSheet();
+  stylesheet.setSelector('.pause-hud');
+  stylesheet.insertRule('width: 100%');
+  stylesheet.insertRule('height: 100%');
+  stylesheet.insertRule('text-align: center');
+  stylesheet.insertRule('display: none');
+  stylesheet.insertRule('z-index: 100');
+  stylesheet.insertRule('color: #ffffff');
+  stylesheet.insertRule('text-transform: uppercase');
+  stylesheet.insertRule('font-size: 32px');
+  stylesheet.insertRule('letter-spacing: 6px');
+  stylesheet.insertRule('position: absolute');
+  stylesheet.insertRule('top: 0');
+  stylesheet.insertRule('padding: 20% 0 0 0');
+  stylesheet.insertRule('background: rgba(0, 0, 0, 0.5)');
+  stylesheet.insertRule('cursor: default');
+  stylesheet.applyRules();
+
   this.utils.addToDOM(this.settings.meta.dom, container);
   this.HUD.paused = container;
 };

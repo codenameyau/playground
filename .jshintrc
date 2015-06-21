@@ -19,6 +19,8 @@
     "smarttabs": true,
     "jquery": true,
     "globals": {
-        "THREE": true
+        "THREE": true,
+        "Playground": true,
+        "StyleSheet": true
     }
 }

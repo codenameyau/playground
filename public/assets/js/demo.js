@@ -20,6 +20,10 @@
     geometry.applyMatrix( new THREE.Matrix4().makeTranslation(0, size/2, 0) );
     var boxMesh = new THREE.Mesh(geometry, material);
     playground.scene.add(boxMesh);
+
+    // Update camera.
+    playground.camera.position.set(30, 40, 50);
+    playground.camera.lookAt(30, 40, 50);
   });
 
 })();
