@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.0
+ * playground.js - v1.0.1
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -8,17 +8,18 @@
 /********************************************************************
 * FUNCTION CONSTRUCTOR
 *********************************************************************/
-function Playground(settings) {
+function Playground() {
   // Properties Overview.
-  this.version = 'v1.0.0';
+  this.version = 'v1.0.1';
   this.clock = null;
   this.scene = null;
   this.renderer = null;
   this.camera = null;
   this.controls = null;
+  this.settings = {};
 
   // Initialize object properties.
-  this._initializeSettings(settings);
+  this._initializeSettings();
   this._intializeKeycodes();
   this._initializeClock();
   this._initializeScene();
@@ -31,32 +32,29 @@ function Playground(settings) {
 }
 
 Playground.prototype._initializeSettings = function() {
-  this.settings = {
-    meta: {
-      dom: '#threejs-canvas',
-    },
+  // Custom playground settings.
+  this.settings.dom = '#threejs-canvas';
+  this.settings.grid = false;
 
-    renderer: {
-      antialias: false,
-    },
+  // WebGL renderer settings.
+  this.settings.renderer = {
+    antialias: false,
+  };
 
-    scene: {
-      grid: false,
-    },
+  // Intial camera settings.
+  this.settings.camera = {
+    fov: 45, near: 1, far: 1000,
+    zoom: { x: 0, y: 20, z: 50 },
+  };
 
-    camera: {
-      fov: 45, near: 1, far: 1000,
-      zoom: { x: 0, y: 20, z: 50 },
-    },
-
-    controls: {
-      enabled: true,
-      userPan: false,
-      userPanSpeed: 0.5,
-      minDistance: 10.0,
-      maxDistance: 600.0,
-      maxPolarAngle: (Math.PI/180) * 85,
-    },
+  // Orbit control settings.
+  this.settings.controls = {
+    enabled: true,
+    userPan: false,
+    userPanSpeed: 0.5,
+    minDistance: 10.0,
+    maxDistance: 600.0,
+    maxPolarAngle: (Math.PI/180) * 85,
   };
 };
 
@@ -129,7 +127,7 @@ Playground.prototype._initializeScene = function() {
 Playground.prototype._initializeRenderer = function() {
   this.renderer = new THREE.WebGLRenderer(this.settings.renderer);
   this.renderer.setSize(window.innerWidth, window.innerHeight);
-  this.utils.addToDOM(this.settings.meta.dom, this.renderer.domElement);
+  this.utils.addToDOM(this.settings.dom, this.renderer.domElement);
   this.renderer.running = true;
 };
 
@@ -248,7 +246,7 @@ Playground.prototype.enableGrid = function(lines, steps, gridColor) {
     floorGrid.vertices.push(new THREE.Vector3( i, 0, lines));
   }
   this.scene.add(new THREE.Line(floorGrid, gridLine, THREE.LinePieces));
-  this.settings.scene.grid = true;
+  this.settings.grid = true;
 };
 
 Playground.prototype.loadScene = function(callback) {
@@ -264,7 +262,7 @@ Playground.prototype.resetCamera = function(callback) {
 Playground.prototype.resetScene = function(callback) {
   this._initializeScene();
   this.resetCamera();
-  if (this.settings.scene.grid) { this.enableGrid(); }
+  if (this.settings.grid) { this.enableGrid(); }
   this._callback(callback);
 };
 
@@ -322,7 +320,7 @@ Playground.prototype.enablePausedHUD = function() {
   stylesheet.insertRule('cursor: default');
   stylesheet.applyRules();
 
-  this.utils.addToDOM(this.settings.meta.dom, container);
+  this.utils.addToDOM(this.settings.dom, container);
   this.HUD.paused = container;
 };
 
