@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.1
+ * playground.js - v1.0.2
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -291,6 +291,20 @@ Playground.prototype.utils.degToRad = function(degrees) {
 
 Playground.prototype.utils.radToDeg = function(radians) {
   return (180 / Math.PI) * radians;
+};
+
+Playground.prototype.utils.randomExclusive = function(min, max) {
+  return parseInt(Math.random() * (max - min) + min, 10);
+};
+
+Playground.prototype.utils.randomInclusive = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+Playground.prototype.utils.randomNormal = function(min, max) {
+  var valueA = this.randomInclusive(min, max);
+  var valueB = this.randomInclusive(min, max);
+  return parseInt((valueA + valueB) / 2, 10);
 };
 
 
