@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.2
+ * playground.js - v1.0.3
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -17,6 +17,7 @@ function Playground() {
   this.camera = null;
   this.controls = null;
   this.settings = {};
+  this.animation = null;
 
   // Initialize object properties.
   this._initializeSettings();
@@ -174,6 +175,7 @@ Playground.prototype.renderScene = function() {
 Playground.prototype.updateScene = function() {
   if (this.renderer.running) {
     window.requestAnimationFrame(this.updateScene.bind(this));
+    if (this.animation) { this.animation(); }
     this.controls.update();
     this.renderScene();
   }
@@ -218,6 +220,16 @@ Playground.prototype.togglePause = function() {
 
 Playground.prototype.getKeycode = function(key) {
   return this.keycodes[key];
+};
+
+Playground.prototype.setAnimation = function(callback) {
+  if (callback && typeof(callback) === 'function') {
+    this.animation = callback;
+  }
+};
+
+Playground.prototype.clearAnimation = function() {
+  this.animation = null;
 };
 
 
