@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.3
+ * playground.js - v1.0.4
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -45,7 +45,7 @@ Playground.prototype._initializeSettings = function() {
   // Intial camera settings.
   this.settings.camera = {
     fov: 45, near: 1, far: 1000,
-    zoom: { x: 0, y: 20, z: 50 },
+    zoom: { x: 0, y: 60, z: 120 },
   };
 
   // Orbit control settings.
@@ -246,8 +246,8 @@ Playground.prototype.changeSettings = function(type, dictionary) {
 };
 
 Playground.prototype.enableGrid = function(lines, steps, gridColor) {
-  lines = lines || 20;
-  steps = steps || 2;
+  lines = lines || 80;
+  steps = steps || 4;
   gridColor = gridColor || 0xFFFFFF;
   var floorGrid = new THREE.Geometry();
   var gridLine = new THREE.LineBasicMaterial( {color: gridColor} );
@@ -404,6 +404,7 @@ function StyleSheet() {
 * STYLESHEET PUBLIC METHODS
 *********************************************************************/
 StyleSheet.prototype.setSelector = function(selector) {
+  this.clearBuffer();
   this.selector = selector;
 };
 

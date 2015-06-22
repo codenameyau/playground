@@ -1,6 +1,6 @@
 {
   "name": "playground",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Three.js quick starter platform",
   "main": "build/playground.js",
   "scripts": {

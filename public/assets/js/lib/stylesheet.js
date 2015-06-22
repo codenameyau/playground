@@ -31,6 +31,7 @@ function StyleSheet() {
 * STYLESHEET PUBLIC METHODS
 *********************************************************************/
 StyleSheet.prototype.setSelector = function(selector) {
+  this.clearBuffer();
   this.selector = selector;
 };
 
