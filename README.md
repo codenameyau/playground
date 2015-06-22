@@ -7,6 +7,11 @@ maintain. Playground attempts to solve those issues.
 
 Please see the example in the `public/`.
 
+## Installation
+```
+bower install playground --save
+```
+
 ## Features
 
 #### Callbacks
