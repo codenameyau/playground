@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.5
+ * playground.js - v1.0.6
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
