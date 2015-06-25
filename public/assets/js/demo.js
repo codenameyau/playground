@@ -2,28 +2,26 @@
 
 (function() {
 
+  // Initialize playground.
   var playground = new Playground();
-  playground.enableGrid();
+  playground.enableGrid(40, 5);
 
-  playground.loadScene(function() {
-    // Light sources.
-    var lightAmbient = new THREE.AmbientLight(0x5a5a5a);
-    var lightSource = new THREE.PointLight(0xAAEa7a);
-    lightSource.position.set(0, 20, 70);
-    playground.scene.add(lightAmbient);
-    playground.scene.add(lightSource);
+  // Update camera.
+  playground.setCameraPosition(30, 60, 90);
 
-    // Box example.
-    var size = 5;
-    var material = new THREE.MeshLambertMaterial();
-    var geometry = new THREE.BoxGeometry(size, size, size);
-    geometry.applyMatrix( new THREE.Matrix4().makeTranslation(0, size/2, 0) );
-    var boxMesh = new THREE.Mesh(geometry, material);
-    playground.scene.add(boxMesh);
+  // Light sources.
+  var lightAmbient = new THREE.AmbientLight(0x5a5a5a);
+  var lightSource = new THREE.PointLight(0xAAEa7a);
+  lightSource.position.set(0, 20, 70);
+  playground.scene.add(lightAmbient);
+  playground.scene.add(lightSource);
 
-    // Update camera.
-    playground.camera.position.set(30, 40, 50);
-    playground.camera.lookAt(30, 40, 50);
-  });
+  // Box example.
+  var size = 10;
+  var material = new THREE.MeshLambertMaterial();
+  var geometry = new THREE.BoxGeometry(size, size, size);
+  geometry.applyMatrix( new THREE.Matrix4().makeTranslation(0, size/2, 0) );
+  var boxMesh = new THREE.Mesh(geometry, material);
+  playground.scene.add(boxMesh);
 
 })();
