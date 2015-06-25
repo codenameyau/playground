@@ -3,7 +3,8 @@
 Playground is an object-oriented Three.js boilerplate. Three.js projects
 have a lot of boilerplate code that quickly becomes tedious to write.
 Additionally as these projects grow, they become difficult to understand and
-maintain. Playground attempts to solve those issues.
+maintain. Playground attempts to solve those issues by providing a core
+module that handles all the behind-the-scenes Three.js renderer code.
 
 Please see the example in the `public/`.
 
@@ -14,8 +15,7 @@ bower install playground --save
 
 ## Features
 
-This project is bundled with many commonly-used public methods and utilities.
-Some of these features include:
+Some features include:
 
 - Clock pausing and resuming on tab-switching.
 - Manually pause the renderer with the 'space' key.

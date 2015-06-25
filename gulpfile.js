@@ -24,14 +24,14 @@ gulp.task('clean', function(cb) {
 });
 
 // [Task] copy public files to src
-gulp.task('build', function() {
+gulp.task('copy', function() {
   gulp.src(lib)
     .pipe(concat(packageName))
     .pipe(gulp.dest(output));
 });
 
 // [Task] uglify js
-gulp.task('uglify', function() {
+gulp.task('build', function() {
   return gulp.src(lib)
     .pipe(strReplace(/'use strict';/g, ''))
     .pipe(concat(packageName))
@@ -43,4 +43,4 @@ gulp.task('uglify', function() {
 });
 
 // [Task] generates src
-gulp.task('default', ['build', 'uglify']);
+gulp.task('default', ['copy', 'build']);

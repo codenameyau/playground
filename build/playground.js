@@ -236,15 +236,6 @@ Playground.prototype.clearAnimation = function() {
 /********************************************************************
 * PUBLIC METHODS
 *********************************************************************/
-Playground.prototype.changeSettings = function(type, dictionary) {
-  var setting = this.settings[type];
-  for (var key in dictionary) {
-    if (setting.hasOwnProperty(key)) {
-      setting[key] = dictionary[key];
-    }
-  }
-};
-
 Playground.prototype.enableGrid = function(lines, steps, gridColor) {
   lines = lines || 80;
   steps = steps || 4;
