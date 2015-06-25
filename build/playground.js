@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.4
+ * playground.js - v1.0.5
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -16,8 +16,9 @@ function Playground() {
   this.renderer = null;
   this.camera = null;
   this.controls = null;
-  this.settings = {};
   this.animation = null;
+  this.settings = {};
+  this.HUD = {};
 
   // Initialize object properties.
   this._initializeSettings();
@@ -45,7 +46,7 @@ Playground.prototype._initializeSettings = function() {
   // Intial camera settings.
   this.settings.camera = {
     fov: 45, near: 1, far: 1000,
-    zoom: { x: 0, y: 60, z: 120 },
+    pos: { x: 0, y: 60, z: 120 },
   };
 
   // Orbit control settings.
@@ -136,7 +137,7 @@ Playground.prototype._initializeCamera = function() {
   var c = this.settings.camera;
   var aspect = window.innerWidth/window.innerHeight;
   this.camera = new THREE.PerspectiveCamera(c.fov, aspect, c.near, c.far);
-  this.camera.position.set(c.zoom.x, c.zoom.y, c.zoom.z);
+  this.camera.position.set(c.pos.x, c.pos.y, c.pos.z);
   this.camera.lookAt(this.scene.position);
   this.scene.add(this.camera);
 };
@@ -148,7 +149,6 @@ Playground.prototype._initializeControls = function() {
 };
 
 Playground.prototype._initializeHUD = function() {
-  this.HUD = {};
   this.enablePausedHUD();
 };
 
@@ -223,9 +223,9 @@ Playground.prototype.getKeycode = function(key) {
 };
 
 Playground.prototype.setAnimation = function(callback) {
-  if (callback && typeof(callback) === 'function') {
+  this._callback(function() {
     this.animation = callback;
-  }
+  });
 };
 
 Playground.prototype.clearAnimation = function() {
@@ -263,6 +263,13 @@ Playground.prototype.enableGrid = function(lines, steps, gridColor) {
 
 Playground.prototype.loadScene = function(callback) {
   this._callback(callback);
+};
+
+Playground.prototype.setCameraPosition = function(x, y, z) {
+  this.camera.position.set(x, y, z);
+  this.settings.camera.pos.x = x;
+  this.settings.camera.pos.y = y;
+  this.settings.camera.pos.z = z;
 };
 
 Playground.prototype.resetCamera = function(callback) {
