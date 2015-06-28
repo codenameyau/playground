@@ -6,7 +6,8 @@ Additionally as these projects grow, they become difficult to understand and
 maintain. Playground attempts to solve those issues by providing a core
 module that handles all the behind-the-scenes Three.js renderer code.
 
-Please see the example in the `public/`.
+Please see the [public example](https://github.com/codenameyau/playground/blob/master/public/assets/js/demo.js)
+for basic usage. Please visit [Tribble](https://github.com/codenameyau/tribble) for more in-depth demos.
 
 ## Installation
 ```

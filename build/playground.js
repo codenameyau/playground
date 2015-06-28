@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.0.6
+ * playground.js - v1.1.0
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -10,21 +10,22 @@
 *********************************************************************/
 function Playground() {
   // Properties Overview.
-  this.version = 'v1.0.1';
+  this.version = 'v1.1.0';
   this.clock = null;
   this.scene = null;
+  this.animation = null;
   this.renderer = null;
   this.camera = null;
   this.controls = null;
-  this.animation = null;
   this.settings = {};
   this.HUD = {};
 
-  // Initialize object properties.
+  // Initialize properties while allowing prototype overriding.
   this._initializeSettings();
   this._intializeKeycodes();
   this._initializeClock();
   this._initializeScene();
+  this._initializeAnimation();
   this._initializeRenderer();
   this._initializeCamera();
   this._initializeControls();
@@ -126,6 +127,10 @@ Playground.prototype._initializeScene = function() {
   this.scene = new THREE.Scene();
 };
 
+Playground.prototype._initializeAnimation = function() {
+  this.animation = this.defaultAnimation;
+};
+
 Playground.prototype._initializeRenderer = function() {
   this.renderer = new THREE.WebGLRenderer(this.settings.renderer);
   this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -175,9 +180,7 @@ Playground.prototype.renderScene = function() {
 Playground.prototype.updateScene = function() {
   if (this.renderer.running) {
     window.requestAnimationFrame(this.updateScene.bind(this));
-    if (this.animation) { this.animation(); }
-    this.controls.update();
-    this.renderScene();
+    this.animation();
   }
 };
 
@@ -222,14 +225,13 @@ Playground.prototype.getKeycode = function(key) {
   return this.keycodes[key];
 };
 
-Playground.prototype.setAnimation = function(callback) {
-  this._callback(function() {
-    this.animation = callback;
-  });
+Playground.prototype.defaultAnimation = function() {
+  this.controls.update();
+  this.renderScene();
 };
 
-Playground.prototype.clearAnimation = function() {
-  this.animation = null;
+Playground.prototype.setAnimation = function(animationFunction) {
+  this.animation = animationFunction;
 };
 
 
