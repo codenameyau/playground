@@ -1,5 +1,5 @@
 /*!
- * playground.js - v1.1.0
+ * playground.js - v1.1.1
  * MIT License (c) 2015
  * https://github.com/codenameyau/playground
  */
@@ -10,7 +10,7 @@
 *********************************************************************/
 function Playground() {
   // Properties Overview.
-  this.version = 'v1.1.0';
+  this.version = 'v1.1.1';
   this.clock = null;
   this.scene = null;
   this.animation = null;
@@ -46,7 +46,7 @@ Playground.prototype._initializeSettings = function() {
 
   // Intial camera settings.
   this.settings.camera = {
-    fov: 45, near: 1, far: 1000,
+    fov: 45, near: 0.5, far: 10000,
     pos: { x: 0, y: 60, z: 120 },
   };
 
@@ -256,6 +256,12 @@ Playground.prototype.enableGrid = function(lines, steps, gridColor) {
 
 Playground.prototype.loadScene = function(callback) {
   this._callback(callback);
+};
+
+Playground.prototype.setMaxCameraDistance = function(far) {
+  this.settings.camera.far = far;
+  this.camera.far = far;
+  this.camera.updateProjectionMatrix();
 };
 
 Playground.prototype.setCameraPosition = function(x, y, z) {
