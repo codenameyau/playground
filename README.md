@@ -14,6 +14,13 @@ for basic usage. Please visit [Tribble](https://github.com/codenameyau/tribble) 
 bower install playground --save
 ```
 
+#### Dependencies
+You'll need to download and include the following dependencies.
+
+- [Three.js](https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js)
+- [Three.js Orbit Controls](https://github.com/mrdoob/three.js/blob/master/examples/js/controls/OrbitControls.js)
+
+
 ## Features
 
 Some features include:
