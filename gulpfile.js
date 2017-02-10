@@ -14,20 +14,13 @@ var rimraf = require('rimraf');
 /********************************************************************
 * GULP TASKS
 *********************************************************************/
-var lib = 'public/assets/js/lib/*.js';
+var lib = 'public/assets/js/*.js';
 var output = 'build';
 var packageName = 'core.js';
 
 // [Task] removes 'src/'
 gulp.task('clean', function(cb) {
   rimraf(output, cb);
-});
-
-// [Task] copy public files to src
-gulp.task('copy', function() {
-  gulp.src(lib)
-    .pipe(concat(packageName))
-    .pipe(gulp.dest(output));
 });
 
 // [Task] uglify js
@@ -42,5 +35,5 @@ gulp.task('build', function() {
     .pipe(gulp.dest(output));
 });
 
-// [Task] generates src
-gulp.task('default', ['copy', 'build']);
+// [Task] generates build
+gulp.task('default', ['build']);
