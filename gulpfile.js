@@ -16,7 +16,7 @@ var rimraf = require('rimraf');
 *********************************************************************/
 var lib = 'public/assets/js/lib/*.js';
 var output = 'build';
-var packageName = 'playground.js';
+var packageName = 'core.js';
 
 // [Task] removes 'src/'
 gulp.task('clean', function(cb) {

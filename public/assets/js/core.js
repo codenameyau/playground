@@ -10,6 +10,7 @@
 * FUNCTION CONSTRUCTOR
 *********************************************************************/
 function ThreeJSCore(options) {
+  this.version = 'v2.0.0';
   this.options = options || {};
   this.clock = null;
   this.scene = null;
@@ -21,13 +22,14 @@ function ThreeJSCore(options) {
   this.HUD = {};
 
   this._initializeSettings();
+  this._intializeKeycodes();
   this._initializeClock();
   this._initializeScene();
   this._initializeRenderer();
   this._initializeCamera();
   this._initializeControls();
+  this._initializeHUD();
   this._initializeEventListeners();
-  this._intializeKeycodes();
   this.updateScene();
 }
 
@@ -38,7 +40,7 @@ ThreeJSCore.prototype._initializeSettings = function() {
 
   // WebGL renderer settings.
   this.settings.renderer = {
-    antialias: false
+    antialias: this.options.antialias || false
   };
 
   // Intial camera settings.
@@ -54,11 +56,26 @@ ThreeJSCore.prototype._initializeSettings = function() {
     userPanSpeed: 0.5,
     minDistance: 10.0,
     maxDistance: 600.0,
-    maxPolarAngle: (Math.PI/180) * 85
+    maxPolarAngle: (Math.PI / 180) * 85
   };
 
-  // Intialize default animation.
+  // Initialize default animation.
   this.animation = this.defaultAnimation;
+};
+
+ThreeJSCore.prototype._intializeKeycodes = function() {
+  // Qwerty keyboard.
+  this.keycodes = {
+    'backspace': 8, 'enter': 13, 'shift': 16, 'ctrl': 17, 'alt': 18,
+    'caps': 20, 'esc': 27, 'space': 32, 'end': 35, 'home': 36,
+    'left': 37, 'up': 38, 'right': 39, 'down': 40,
+    '0': 48, '1': 49, '2': 50, '3': 51, '4': 52,
+    '5': 53, '6': 54, '7': 55, '8': 56, '9': 57,
+    'a': 65, 'b': 66, 'c': 67, 'd': 68, 'e': 69, 'f': 70, 'g': 71,
+    'h': 72, 'i': 73, 'j': 74, 'k': 75, 'l': 76, 'm': 77, 'n': 78,
+    'o': 79, 'p': 80, 'q': 81, 'r': 82, 's': 83, 't': 84, 'u': 85,
+    'v': 86, 'w': 87, 'x': 88, 'y': 89, 'z': 90
+  };
 };
 
 ThreeJSCore.prototype._initializeClock = function() {
@@ -78,10 +95,10 @@ ThreeJSCore.prototype._initializeRenderer = function() {
 };
 
 ThreeJSCore.prototype._initializeCamera = function() {
-  var cam = this.settings.camera;
-  var aspect = window.innerWidth / window.innerHeight;
-  this.camera = new THREE.PerspectiveCamera(cam.fov, aspect, cam.near, cam.far);
-  this.camera.position.set(cam.pos.x, cam.pos.y, cam.pos.z);
+  var c = this.settings.camera;
+  var aspect = window.innerWidth/window.innerHeight;
+  this.camera = new THREE.PerspectiveCamera(c.fov, aspect, c.near, c.far);
+  this.camera.position.set(c.pos.x, c.pos.y, c.pos.z);
   this.camera.lookAt(this.scene.position);
   this.scene.add(this.camera);
 };
@@ -107,19 +124,9 @@ ThreeJSCore.prototype._initializeEventListeners = function() {
   window.addEventListener('keydown', this.keyboardInput.bind(this), false);
 };
 
-ThreeJSCore.prototype._intializeKeycodes = function() {
-  this.keycodes = {
-    'space': 32,
-    'left': 37,
-    'up': 38,
-    'right': 39,
-    'down': 40
-  };
-};
-
 ThreeJSCore.prototype._callback = function(callback) {
   if (callback && typeof callback === 'function') {
-    callback.call(this);
+    callback.bind(this)();
   }
 };
 
@@ -264,7 +271,7 @@ ThreeJSCore.prototype.utils.radToDeg = function(radians) {
   return (180 / Math.PI) * radians;
 };
 
-ThreeJSCore.prototype.utils.randomExclusive = function(min, max) {
+ThreeJSCore.prototype.utils.random = function(min, max) {
   return parseInt(Math.random() * (max - min) + min, 10);
 };
 
@@ -276,6 +283,18 @@ ThreeJSCore.prototype.utils.randomNormal = function(min, max) {
   var valueA = this.randomInclusive(min, max);
   var valueB = this.randomInclusive(min, max);
   return parseInt((valueA + valueB) / 2, 10);
+};
+
+
+/********************************************************************
+* HUD METHODS
+*********************************************************************/
+ThreeJSCore.prototype.enablePausedHUD = function() {
+  var container = document.createElement('div');
+  container.className = 'threejs-core-pause';
+  container.textContent = 'Paused';
+  this.utils.addToDOM(this.settings.dom, container);
+  this.HUD.paused = container;
 };
 
 

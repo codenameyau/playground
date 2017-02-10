@@ -1,12 +1,12 @@
 {
   "name": "playground",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "homepage": "https://github.com/codenameyau/playground",
   "authors": [
     "Jorge Yau <jyau01@citymail.cuny.edu>"
   ],
-  "description": "Three.js core library",
-  "main": "build/playground.js",
+  "description": "Three.js core",
+  "main": "build/core.js",
   "keywords": [
     "three.js",
     "boilerplate",
