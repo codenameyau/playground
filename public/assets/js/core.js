@@ -201,7 +201,7 @@ ThreeJSCore.prototype.setAnimation = function(animationFunction) {
 ThreeJSCore.prototype.enableGrid = function(lines, steps, gridColor) {
   lines = lines || 80;
   steps = steps || 4;
-  gridColor = gridColor || 0xFFFFFF;
+  gridColor = gridColor || 0x444444;
   var floorGrid = new THREE.Geometry();
   var gridLine = new THREE.LineBasicMaterial( {color: gridColor} );
   for (var i = -lines; i <= lines; i += steps) {
